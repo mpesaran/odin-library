@@ -8,17 +8,28 @@ function Book(title, author, pages, read) {
 
 const myLibrary = [{ title: 'Hobbit', author: 'J.R.R. Tolkien', pages: 295, read: false }]
 
+document.addEventListener('DOMContentLoaded', () => {
+    displayBooks(myLibrary);
+});
 
 const addButton = document.getElementById("add")
-const displayAuthor = document.getElementById("displayAuthor")
-const displayTitle = document.getElementById("displayTitle")
-const displayPages = document.getElementById("displayPages")
-const displayRead = document.getElementById("displayRead")
+const booksContainer = document.getElementById("booksContainer"); // Container for book cards
+const dialog = document.querySelector("dialog")
+const showButton = document.querySelector("dialog + button")
+const closeButton = document.querySelector("dialog button")
 
 addButton.addEventListener('click', (event) => {
     event.preventDefault()
     addBookToLibrary()
 })
+
+showButton.addEventListener("click", () => {
+    dialog.showModal();
+});
+
+closeButton.addEventListener("click", () => {
+    dialog.close();
+});
 
 function addBookToLibrary() {
     let bookTitle = document.getElementById("title").value;
@@ -26,17 +37,47 @@ function addBookToLibrary() {
     const bookPages = document.getElementById("pages").value
     const bookRead = document.getElementById("read").checked
 
+    if (bookTitle === "" || bookAuthor === "" || bookPages === "") {
+        alert("Please fill in all the fields.");
+        return; // Exit function if any field is empty
+    }
+
     const book = new Book(bookTitle, bookAuthor, bookPages, bookRead);
     myLibrary.push(book)
-    displayBooks(myLibrary)
+    displayBooks([book])
+    clearForm();
 }
 
 
 function displayBooks(arr) {
     arr.forEach((book) => {
-        displayAuthor.textContent = book.author;
-        displayTitle.textContent = book.title;
-        displayPages.textContent = book.pages;
-        displayRead.textContent = book.read;
+        const card = document.createElement('div');
+        card.classList.add('book-card');
+
+        const title = document.createElement('h3');
+        title.textContent = `Title: ${book.title}`;
+
+        const author = document.createElement('p');
+        author.textContent = `Author: ${book.author}`;
+
+        const pages = document.createElement('p');
+        pages.textContent = `Pages: ${book.pages}`;
+
+        const readStatus = document.createElement('p');
+        readStatus.textContent = book.read ? "Read: Yes" : "Read: No";
+
+        card.appendChild(title);
+        card.appendChild(author);
+        card.appendChild(pages);
+        card.appendChild(readStatus);
+
+        booksContainer.appendChild(card);
     });
+}
+
+function clearForm() {
+    document.getElementById("title").value = "";
+    document.getElementById("author").value = "";
+    document.getElementById("pages").value = "";
+    document.getElementById("read").checked = false;
 }
