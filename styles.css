@@ -24,6 +24,12 @@ dialog {
     border-radius: 10px;
     padding: 40px;
     width: 300px;
+    background-color: #587c6f;
+}
+
+dialog::backdrop {
+    background-color: #6d6d6d;
+    opacity: 0.4;
 }
 
 
@@ -31,6 +37,7 @@ dialog {
     display: flex;
     flex-direction: column;
     gap: 15px;
+
 }
 
 #closeDialog,
