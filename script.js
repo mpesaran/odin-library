@@ -5,8 +5,10 @@ function Book(title, author, pages, read) {
     this.read = read;
 }
 
-
-const myLibrary = [{ title: 'Hobbit', author: 'J.R.R. Tolkien', pages: 295, read: false }]
+Book.prototype.toggleReadStatus = function () {
+    this.read = !this.read;
+};
+const myLibrary = []
 
 document.addEventListener('DOMContentLoaded', () => {
     displayBooks(myLibrary);
@@ -65,21 +67,32 @@ function displayBooks(arr) {
 
         const readStatus = document.createElement('p');
         readStatus.textContent = book.read ? "Read: Yes" : "Read: No";
+        readStatus.classList.add('read-status');
 
         const deleteButton = document.createElement('button');
         deleteButton.classList.add("delete-button")
-        deleteButton.textContent = "X"
+        deleteButton.textContent = "Remove"
 
         deleteButton.addEventListener("click", () => {
             myLibrary.splice(index, 1);
             booksContainer.removeChild(card)
-        })
+        });
 
-        card.appendChild(deleteButton);
+        const toggleReadButton = document.createElement('button');
+        toggleReadButton.textContent = "Toggle Read";
+        toggleReadButton.classList.add('toggle-read-button');
+
+        toggleReadButton.addEventListener('click', () => {
+            book.toggleReadStatus();
+            readStatus.textContent = book.read ? "Read: Yes" : "Read: No";
+        });
+
         card.appendChild(title);
         card.appendChild(author);
         card.appendChild(pages);
         card.appendChild(readStatus);
+        card.appendChild(deleteButton);
+        card.appendChild(toggleReadButton);
 
         booksContainer.appendChild(card);
     });
@@ -94,3 +107,4 @@ function clearForm() {
     document.getElementById("pages").value = "";
     document.getElementById("read").checked = false;
 }
+
