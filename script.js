@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 const addButton = document.getElementById("add")
-const booksContainer = document.getElementById("booksContainer"); // Container for book cards
+const booksContainer = document.getElementById("booksContainer");
 const dialog = document.querySelector("dialog")
 const showButton = document.querySelector("dialog + button")
 const closeButton = document.querySelector("dialog button")
@@ -50,7 +50,7 @@ function addBookToLibrary() {
 
 
 function displayBooks(arr) {
-    arr.forEach((book) => {
+    arr.forEach((book, index) => {
         const card = document.createElement('div');
         card.classList.add('book-card');
 
@@ -66,6 +66,16 @@ function displayBooks(arr) {
         const readStatus = document.createElement('p');
         readStatus.textContent = book.read ? "Read: Yes" : "Read: No";
 
+        const deleteButton = document.createElement('button');
+        deleteButton.classList.add("delete-button")
+        deleteButton.textContent = "X"
+
+        deleteButton.addEventListener("click", () => {
+            myLibrary.splice(index, 1);
+            booksContainer.removeChild(card)
+        })
+
+        card.appendChild(deleteButton);
         card.appendChild(title);
         card.appendChild(author);
         card.appendChild(pages);
@@ -74,6 +84,9 @@ function displayBooks(arr) {
         booksContainer.appendChild(card);
     });
 }
+
+
+
 
 function clearForm() {
     document.getElementById("title").value = "";
