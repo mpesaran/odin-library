@@ -16,9 +16,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
 const addButton = document.getElementById("add")
 const booksContainer = document.getElementById("booksContainer");
-const dialog = document.querySelector("dialog")
-const showButton = document.querySelector("dialog + button")
-const closeButton = document.querySelector("dialog button")
+const dialog = document.getElementById("bookDialog")
+const showButton = document.getElementById("openDialog")
+const closeButton = document.getElementById("closeDialog")
 
 addButton.addEventListener('click', (event) => {
     event.preventDefault()
@@ -56,7 +56,7 @@ function displayBooks(arr) {
         const card = document.createElement('div');
         card.classList.add('book-card');
 
-        const title = document.createElement('h3');
+        const title = document.createElement('h4');
         title.textContent = `Title: ${book.title}`;
 
         const author = document.createElement('p');
@@ -87,12 +87,17 @@ function displayBooks(arr) {
             readStatus.textContent = book.read ? "Read: Yes" : "Read: No";
         });
 
+        const buttonContainer = document.createElement('div');
+        buttonContainer.classList.add('card-buttons');
+
+        buttonContainer.appendChild(deleteButton);
+        buttonContainer.appendChild(toggleReadButton);
+
         card.appendChild(title);
         card.appendChild(author);
         card.appendChild(pages);
         card.appendChild(readStatus);
-        card.appendChild(deleteButton);
-        card.appendChild(toggleReadButton);
+        card.appendChild(buttonContainer);
 
         booksContainer.appendChild(card);
     });
